@@ -15,6 +15,11 @@ from scipy.ndimage import gaussian_filter as sp_gaussian_filter
 # Try to import cupy, but revert to base numpy/scipy upon ImportError.
 try:
     import cupy as cp                                                           # type: ignore
+    if not cp.is_available():
+        warnings.warn(
+            "cupy is installed, but could not access the GPU."
+        )
+        raise ImportError()
     import cupyx.scipy.fft as cpfft                                             # type: ignore
     from cupyx import zeros_pinned as cp_zeros_pinned                           # type: ignore
     from cupyx.scipy.ndimage import gaussian_filter1d as cp_gaussian_filter1d   # type: ignore
